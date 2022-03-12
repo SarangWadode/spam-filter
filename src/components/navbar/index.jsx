@@ -59,7 +59,7 @@ export default function Navbar() {
   });
 
   return (
-    <Header height={HEADER_HEIGHT} sx={{ background: '#fff', boxShadow: '0 0 1px 0 rgba(#185ee0, 0.15), 0 6px 12px 0 rgba(#185ee0, 0.15)' }} mb={120}>
+    <Header sx={{ background: '#fff' }} >
       <Container className={classes.inner} fluid>
         <Group>
           <Burger opened={opened} onClick={() => toggleOpened()} className={classes.burger} size="sm"/>

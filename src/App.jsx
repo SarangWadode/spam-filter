@@ -1,12 +1,20 @@
-import { Login } from "./components/login";
 import Navbar from "./components/navbar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { MantineProvider } from "@mantine/core";
+import routes from "./routes";
 
 function App() {
   return (
-    <div className="App" style={{ position: 'absolute', width: "100%", height: "100%" }}>
-      {/* <Login /> */}
-      <Navbar />
-    </div>
+    <MantineProvider className="App" >
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          {routes.map((route, index) => (
+            <Route key={index} {...route} />
+          ))}
+        </Routes>
+      </BrowserRouter>
+    </MantineProvider>
   );
 }
 

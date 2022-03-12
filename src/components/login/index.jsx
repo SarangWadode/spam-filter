@@ -28,7 +28,7 @@ export function Login() {
         }
     })
     return (
-        <Container size={420} my={40}>
+        <Container sx={{margin: 'auto'}} >
             <Title
                 align="center"
                 sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900 })}
