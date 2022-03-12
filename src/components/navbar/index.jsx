@@ -1,7 +1,8 @@
 import React from 'react';
-import {createStyles, Header, Container, Group, Button, Burger} from '@mantine/core';
+import { createStyles, Header, Container, Group, Button, Burger, Anchor, Image } from '@mantine/core';
 import { useBooleanToggle } from '@mantine/hooks';
 import links from './links';
+import { Link } from 'react-router-dom';
 
 const HEADER_HEIGHT = 55;
 
@@ -52,9 +53,9 @@ export default function Navbar() {
 
   const items = links.map((link) => {
     return (
-      <a key={link.label} href={link.link} className={classes.link} onClick={(event) => event.preventDefault()}>
+      <Anchor key={link.label} className={classes.link} component={Link} to={link.link} >
         {link.label}
-      </a>
+      </Anchor>
     );
   });
 
@@ -62,15 +63,16 @@ export default function Navbar() {
     <Header sx={{ background: '#fff' }} >
       <Container className={classes.inner} fluid>
         <Group>
-          <Burger opened={opened} onClick={() => toggleOpened()} className={classes.burger} size="sm"/>
-          {/* App Logo here */}
+          <Burger opened={opened} onClick={() => toggleOpened()} className={classes.burger} size="sm" />
+          <Image src={null} alt="App Logo" withPlaceholder/>
         </Group>
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>
-        <Button radius="xl" sx={{ height: 30 }}>
+        <Anchor component={Link} to='/login'><Button radius="xl" sx={{ height: 30 }}>
           Login
         </Button>
+        </Anchor>
       </Container>
     </Header>
   );
