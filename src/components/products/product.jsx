@@ -1,32 +1,24 @@
 import { Card, Image, Text, Button, Group } from '@mantine/core';
+import { Link } from 'react-router-dom';
 
-export default function Product() {
+export default function Product({ image, name, pk }) {
 
   return (
-    <div style={{ margin: 'auto' }}>
-      <Card shadow="sm" p="lg">
-        <Group grow>
-          <Image src="" height={160} alt='' />
-          <Group>
-            <Text fontSize="lg" fontWeight="bold" mb="sm">Product Name</Text>
-            <Text size="sm" style={{ lineHeight: 1.5 }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Vestibulum euismod, nisl sit amet consectetur consectetur,
-              nisi erat euismod nunc, eget consectetur nunc nisi eget
-              consectetur nunc.
-            </Text>
-          </Group>
-          <Group direction='column' align='center'>
-            <Button variant="light" color="blue" style={{ marginTop: 14, width: '100px' }}>
-              Buy
-            </Button>
-            {/* Review page link here */}
-            <Button variant="light" color="blue" style={{ marginTop: 14, width: '100px' }}>
-              Reviews
-            </Button>
-          </Group>
+    <Card shadow="sm" p="lg" style={{margin: '20px 0'}}>
+      <Group grow>
+        <Image src={image} height={160} alt='' />
+        <Group>
+          <Text fontSize="lg" fontWeight="bold" mb="sm">{name}</Text>
         </Group>
-      </Card>
-    </div>
+        <Group direction='column' align='center'>
+          <Button variant="light" color="blue" style={{ marginTop: 14, width: '100px' }}>
+            Buy
+          </Button>
+          <Button component={Link} to={`/products/${pk}`} variant="light" color="blue" style={{ marginTop: 14, width: '100px' }}>
+            Reviews
+          </Button>
+        </Group>
+      </Group>
+    </Card>
   );
 }
