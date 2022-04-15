@@ -18,7 +18,7 @@ export function Products() {
       setProducts(res.data);
     });
   },[config])
-  console.log(products)
+  
   return (
     <Container>
       {products?.results?.map(product => (

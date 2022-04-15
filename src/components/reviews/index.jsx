@@ -1,32 +1,42 @@
 import { Container, Group, Image, Text, Textarea, Button } from "@mantine/core"
-import Review from "./review"
 import { useForm } from "@mantine/hooks"
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Review from "./review"
+import api from "../services/api";
 
 export function Reviews() {
+  const { pk } = useParams()
+
+const [ reviews, setReviews ] = useState('')
+
   const form = useForm({
     initialValues: {
       review: ''
     }
   });
 
+  useEffect(() => {
+    api.get(`/products/${pk}`).then(res => {
+      setReviews(res.data)
+    })
+  },[pk])
 
   return (
     <Container>
       <Group grow>
         <Group direction="column" grow>
-          <Image radius='md' src="" width={300} height={200} alt='' />
-          <Text fontSize="lg" fontWeight="bold" mb="sm">Product Name</Text>
+          <Image src={reviews.image} width='300px' fit="contain" radius='md'  alt={reviews.title} />
+          <Text fontSize="lg" fontWeight="bold" mb="sm">{reviews.title}</Text>
           <Text size="sm">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Vestibulum euismod, nisl sit amet consectetur consectetur,
-            nisi erat euismod nunc, eget consectetur nunc nisi eget
-            consectetur nunc.
+            {reviews?.description}
           </Text>
         </Group>
         <Group>
           <Group>
-            <Review />
-            <Review />
+            {reviews?.comments?.map((review,id) => {
+              return <Review key={id} user={review.user__username} comment={review.text} date={review.date_posted} />
+            })}
           </Group>
           <Group>
             <form onSubmit={form.onSubmit((values) => console.log(values))}>

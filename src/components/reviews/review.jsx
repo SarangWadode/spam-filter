@@ -1,16 +1,16 @@
 import { Card, Text, Group } from '@mantine/core';
 
-export default function Product() {
+export default function Product({ user, comment, date }) {
 
     return (
         <Card shadow="sm" p="lg">
             <Group>
-                <Text fontSize="lg" fontWeight="bold" mb="sm">User Name</Text>
+                <Group>
+                    <Text fontSize="lg" fontWeight="bold" mb="sm">{user}</Text>
+                    <Text>{date}</Text>
+                </Group>
                 <Text size="sm">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Vestibulum euismod, nisl sit amet consectetur consectetur,
-                    nisi erat euismod nunc, eget consectetur nunc nisi eget
-                    consectetur nunc.
+                    {comment}
                 </Text>
             </Group>
         </Card>
