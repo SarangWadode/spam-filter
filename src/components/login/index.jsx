@@ -1,19 +1,14 @@
-import { useForm } from '@mantine/hooks';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { showNotification, updateNotification } from '@mantine/notifications';
-
 import {
-    TextInput,
-    PasswordInput,
-    Checkbox,
-    Anchor,
-    Paper,
-    Container,
-    Group,
-    Button,
-    Tabs,
+    Anchor, Button, Checkbox, Container,
+    Group, Paper, PasswordInput, Tabs, TextInput
 } from '@mantine/core';
-import api from '../services/api';
+import { useForm } from '@mantine/hooks';
+import { showNotification, updateNotification } from '@mantine/notifications';
+import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import api, { is_logged_in } from '../services/api';
+
+
 
 export function Login() {
     const router = useLocation();
@@ -54,7 +49,6 @@ export function Login() {
             confirmPassword: 'password mismatched'
         }
     })
-
 
     const handleRegister = (register) => {
         showNotification({
@@ -121,6 +115,7 @@ export function Login() {
                 data.message = res.data.message
                 form.reset()
                 api.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
+                sessionStorage.setItem('auth_token', res.data.token)
                 navigate('/')
             } else {
                 data.message = res.data.error
@@ -131,9 +126,22 @@ export function Login() {
                 id: 'login',
                 ...data
             })
+        }).catch(err => {
+            updateNotification({
+                id: 'register',
+                title: 'Error',
+                message: err?.response?.data?.error ?? err?.message ?? 'Error submitting data',
+                color: 'red'
+            })
         })
     }
 
+    useEffect(() => {
+        if(is_logged_in()){
+            navigate('/')
+            showNotification({ message: 'You are already logged in', color: 'green' })
+        }
+    }, [navigate])
 
     return (
         <Container sx={{ margin: 'auto' }} style={{minWidth: '350px'}}>

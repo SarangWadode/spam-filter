@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 export function Products() {
   const [products, setProducts] = useState({});
-  const [config, setConfig] = useState({ start: 0, count: 10 })
+  const [config,] = useState({ start: 0, count: 10 })
 
   useEffect(() => {
     let result_query = ''

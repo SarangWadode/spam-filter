@@ -3,7 +3,7 @@ import { useForm } from "@mantine/hooks"
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Review from "./review"
-import api from "../services/api";
+import api, { is_logged_in } from "../services/api";
 
 export function Reviews() {
   const { pk } = useParams()
@@ -38,6 +38,7 @@ const [ reviews, setReviews ] = useState('')
               return <Review key={id} user={review.user__username} comment={review.text} date={review.date_posted} />
             })}
           </Group>
+          {is_logged_in() && 
           <Group>
             <form onSubmit={form.onSubmit((values) => console.log(values))}>
               <Textarea
@@ -53,6 +54,7 @@ const [ reviews, setReviews ] = useState('')
               </Group>
             </form>
           </Group>
+          }
           <Group>
             {/* Filter Reviews function */}
             <Button variant="light" color="blue" style={{ marginTop: 14, width: '150px' }}>

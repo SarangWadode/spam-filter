@@ -1,4 +1,4 @@
-import { Container, Group, Image, Text, Textarea, Button } from "@mantine/core"
+import { Container, Group, Image, Text } from "@mantine/core"
 import Review from "../reviews/review"
 
 export function Deleted() {
