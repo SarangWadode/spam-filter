@@ -138,7 +138,7 @@ export function Login() {
 
     useEffect(() => {
         if(is_logged_in()){
-            navigate('/')
+            navigate(-1)
             showNotification({ message: 'You are already logged in', color: 'green' })
         }
     }, [navigate])
