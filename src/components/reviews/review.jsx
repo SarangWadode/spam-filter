@@ -7,7 +7,7 @@ export default function Product({ user, comment, date }) {
             <Group>
                 <Group>
                     <Text fontSize="lg" fontWeight="bold" mb="sm">{user}</Text>
-                    <Text>{date}</Text>
+                    <Text>{(new Date(date)).toLocaleString()}</Text>
                 </Group>
                 <Text size="sm">
                     {comment}

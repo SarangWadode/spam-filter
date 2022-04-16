@@ -1,4 +1,4 @@
-import { Container, Group, Image, Text, Textarea, Button } from "@mantine/core"
+import { Container, Group, Image, Select, Text, Textarea, Button } from "@mantine/core"
 import { useForm } from "@mantine/hooks"
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -7,14 +7,10 @@ import api, { is_logged_in } from "../services/api";
 
 export function Reviews() {
   const { pk } = useParams()
+  const [ reviews, setReviews ] = useState({})
+  const [filter, setFilter] = useState('')
 
-const [ reviews, setReviews ] = useState('')
-
-  const form = useForm({
-    initialValues: {
-      review: ''
-    }
-  });
+  const form = useForm({ initialValues: { review: '' } });
 
   useEffect(() => {
     api.get(`/products/${pk}`).then(res => {
@@ -33,10 +29,19 @@ const [ reviews, setReviews ] = useState('')
           </Text>
         </Group>
         <Group>
+          <Select value={filter}
+            onChange={(value) => setFilter(value)}
+            data={[
+              { value: '', label: 'All' },
+              { value: 'positive', label: 'View positive reviews' },
+              { value: 'negative', label: 'View negative reviews' }
+            ]}
+          />
           <Group>
-            {reviews?.comments?.map((review,id) => {
-              return <Review key={id} user={review.user__username} comment={review.text} date={review.date_posted} />
-            })}
+            {reviews?.comments
+              ?.filter(a => filter==='' || a.sentiment?.includes(filter))
+              ?.map((review,id) => <Review key={id} user={review.user__username} comment={review.text} date={review.date_posted} />
+            )}
           </Group>
           {is_logged_in() && 
           <Group>

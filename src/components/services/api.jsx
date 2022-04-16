@@ -1,4 +1,5 @@
 import axios from "axios";
+import { showNotification } from "@mantine/notifications";
 const api = axios.create({
     baseURL: "http://localhost:8000/"
 });
@@ -6,6 +7,20 @@ const api = axios.create({
 if (get_token()) {
     api.defaults.headers.common['Authorization'] = `Bearer ${get_token()}`;
 }
+
+api.interceptors.response.use(function(response) {
+    if (response.data?.logged_out) {
+        api.defaults.headers.common['Authorization'] = null;
+        sessionStorage.removeItem('auth_token');
+        showNotification({
+            id: 'logout',
+            title: 'Logged out',
+            message: response.data?.error ?? 'You have been logged out',
+            color: 'green'
+        });
+    }
+    return response
+})
 
 
 function get_token() {
