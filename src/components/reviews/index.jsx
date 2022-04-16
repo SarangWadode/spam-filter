@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Review from "./review"
 import api, { is_logged_in } from "../services/api";
+import { showNotification } from "@mantine/notifications";
 
 export function Reviews() {
   const { pk } = useParams()
@@ -12,11 +13,25 @@ export function Reviews() {
 
   const form = useForm({ initialValues: { review: '' } });
 
-  useEffect(() => {
+  useEffect(load_reviews, [pk])
+
+  function load_reviews() {
     api.get(`/products/${pk}`).then(res => {
       setReviews(res.data)
     })
-  },[pk])
+  }
+
+  const addReview = ({review}) => {
+    api.post(`/products/${pk}/comment`, {text: review})
+      .then(res => {
+        showNotification({
+          id: 'add_review',
+          message: res.data?.message ?? res.data?.success ?? res.data?.error ?? 'Review added successfully',
+        })
+        form.reset()
+      })
+      .finally(load_reviews)
+  }
 
   return (
     <Container>
@@ -45,7 +60,7 @@ export function Reviews() {
           </Group>
           {is_logged_in() && 
           <Group>
-            <form onSubmit={form.onSubmit((values) => console.log(values))}>
+            <form onSubmit={form.onSubmit((values) => addReview(values))}>
               <Textarea
                 placeholder="Write your review here"
                 label="Add your review"
@@ -53,7 +68,7 @@ export function Reviews() {
               />
 
               <Group position="left" mt="md">
-                <Button variant="light" color="blue" style={{ marginTop: 14, width: '150px' }}>
+                <Button type="submit" variant="light" color="blue" style={{ marginTop: 14, width: '150px' }}>
                   Add Review
                 </Button>
               </Group>
