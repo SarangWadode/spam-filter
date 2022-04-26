@@ -1,8 +1,9 @@
-import React from 'react';
-import { createStyles, Header, Container, Group, Button, Burger, Anchor, Image } from '@mantine/core';
-import { useBooleanToggle } from '@mantine/hooks';
+import React, { useEffect } from 'react';
+import { createStyles, Header, Container, Group, Button, Burger, Anchor, Image, Avatar, Menu } from '@mantine/core';
+import { useBooleanToggle, useHash } from '@mantine/hooks';
 import links from './links';
 import { Link } from 'react-router-dom';
+import { is_logged_in } from '../services/api';
 
 const HEADER_HEIGHT = 55;
 
@@ -50,6 +51,14 @@ const useStyles = createStyles((theme) => ({
 export default function Navbar() {
   const { classes } = useStyles();
   const [opened, toggleOpened] = useBooleanToggle(false);
+  const [hash, setHash] = useHash('');
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user') ?? '{}');
+    if (user.email) {
+      setHash(user.email);
+    }
+  }, [setHash])
 
   const items = links.map((link) => {
     return (
@@ -64,15 +73,20 @@ export default function Navbar() {
       <Container className={classes.inner} fluid>
         <Group>
           <Burger opened={opened} onClick={() => toggleOpened()} className={classes.burger} size="sm" />
-          <Image src={null} alt="App Logo" withPlaceholder/>
+          <Image width='23%' src='https://dynamic.brandcrowd.com/asset/logo/efc518ab-0a4c-4810-a3f8-2efa2ed81c8b/logo-search-grid-1x?v=636678474478470000&text=detector' alt="App Logo" withPlaceholder/>
         </Group>
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>
-        <Anchor component={Link} to='/login'><Button radius="xl" sx={{ height: 30 }}>
-          Login
-        </Button>
-        </Anchor>
+        {
+          is_logged_in()
+          ? <Menu control={<Avatar style={{cursor: 'pointer'}} src={`https://www.gravatar.com/avatar/${hash}`} />}>
+              <Menu.Item children={<Anchor component={Link} to='/logout' >Log Out</Anchor>} />
+            </Menu>
+          : <Button component={Link} to='/login' radius="xl" sx={{ height: 30 }}>
+              Login
+            </Button>
+        }
       </Container>
     </Header>
   );
