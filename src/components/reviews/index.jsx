@@ -75,12 +75,6 @@ export function Reviews() {
             </form>
           </Group>
           }
-          <Group>
-            {/* Filter Reviews function */}
-            <Button variant="light" color="blue" style={{ marginTop: 14, width: '150px' }}>
-              Filter Reviews
-            </Button>
-          </Group>
         </Group>
       </Group>
     </Container>
