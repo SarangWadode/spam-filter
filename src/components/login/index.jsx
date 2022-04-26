@@ -116,6 +116,7 @@ export function Login() {
                 form.reset()
                 api.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
                 sessionStorage.setItem('auth_token', res.data.token)
+                sessionStorage.setItem('user', JSON.stringify(res.data.user))
                 navigate('/')
             } else {
                 data.message = res.data.error

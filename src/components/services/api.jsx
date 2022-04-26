@@ -31,4 +31,15 @@ export function is_logged_in() {
     return !!token
 }
 
+export function logout() {
+    api.defaults.headers.common['Authorization'] = null;
+    sessionStorage.clear()
+    showNotification({
+        id: 'logout',
+        title: 'Logged out',
+        message: 'You have been logged out',
+        color: 'green'
+    });
+}
+
 export default api;
