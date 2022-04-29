@@ -5,9 +5,10 @@ import { Products } from "./components/products";
 import { Reviews } from "./components/reviews";
 import { Deleted } from "./components/deleted";
 import { About } from "./components/about";
+import { Homepage } from "./components/homepage";
 
 const routes = [
-    {path: '/', element: <Title>Home Page</Title>},
+    {path: '/', element: <Homepage />},
     {path: '/login', element: <Login />},
     {path: '/signup', element: <Login />},
     {path: '/products', element: <Products />},

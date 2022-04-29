@@ -5,7 +5,7 @@ import links from './links';
 import { Link } from 'react-router-dom';
 import { is_logged_in } from '../services/api';
 
-const HEADER_HEIGHT = 55;
+const HEADER_HEIGHT = 65;
 
 const useStyles = createStyles((theme) => ({
   inner: {
